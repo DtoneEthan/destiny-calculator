@@ -220,18 +220,31 @@
     return { year, month, day, rememberTime, time, location, gender };
   }
 
-  function validate(inp) {
-    if (
-      !inp.year ||
-      inp.year < 1900 ||
-      inp.year > 2026 ||
-      !inp.month ||
-      !inp.day ||
-      !inp.gender
-    ) {
-      return false;
-    }
-    return true;
+  function missingFields(inp) {
+    const m = [];
+    if (!inp.year || inp.year < 1900 || inp.year > 2026) m.push("year");
+    if (!inp.month) m.push("month");
+    if (!inp.day) m.push("day");
+    if (!inp.gender) m.push("gender");
+    return m;
+  }
+
+  function clearInvalid() {
+    document.querySelectorAll(".invalid").forEach((e) => e.classList.remove("invalid"));
+  }
+
+  function highlightMissing(missing) {
+    clearInvalid();
+    const map = { year: "birthYear", month: "birthMonth", day: "birthDay" };
+    missing.forEach((k) => {
+      if (k === "gender") {
+        const row = document.querySelector(".radio-row");
+        if (row) row.classList.add("invalid");
+      } else if (map[k]) {
+        const el = $(map[k]);
+        if (el) el.classList.add("invalid");
+      }
+    });
   }
 
   // ---- events ----
@@ -252,18 +265,26 @@
     $("destinyForm").addEventListener("submit", (e) => {
       e.preventDefault();
       const inp = readInputs();
-      if (!validate(inp)) {
-        $("formError").textContent = I18N[currentLang].ui.formError;
+      const missing = missingFields(inp);
+      if (missing.length) {
+        const dict = I18N[currentLang].ui;
+        const names = missing.map((k) => dict["req" + k[0].toUpperCase() + k.slice(1)]);
+        const sep = { zh: "、", en: ", ", es: ", " }[currentLang];
+        $("formError").textContent = dict.formErrorTpl.replace("{fields}", names.join(sep));
+        highlightMissing(missing);
         return;
       }
+      clearInvalid();
       $("formError").textContent = "";
       const result = compute(inp);
       lastResult = { result, inputs: inp };
       render();
     });
 
+    $("destinyForm").addEventListener("input", clearInvalid);
     $("destinyForm").addEventListener("reset", () => {
       lastResult = null;
+      clearInvalid();
       $("result").classList.add("hidden");
       $("result").innerHTML = "";
       $("formError").textContent = "";
