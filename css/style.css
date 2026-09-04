@@ -144,6 +144,16 @@ button:active { transform: translateY(1px); }
 
 .form-error { color: var(--crisis); font-size: 13px; min-height: 16px; margin: 8px 2px 0; }
 
+input.invalid, select.invalid {
+  border-color: var(--crisis) !important;
+  box-shadow: 0 0 0 3px rgba(210, 60, 60, 0.15) !important;
+}
+.radio-row.invalid {
+  outline: 2px solid var(--crisis);
+  border-radius: 10px;
+  padding: 4px 10px;
+}
+
 .result { margin-top: 26px; border-top: 1px dashed var(--line); padding-top: 22px; }
 .hidden { display: none; }
 
