@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>命运推算 · Destiny Calculator · Calculadora del Destino</title>
+  <meta name="description" content="根据出生年月日、时间与地点推算一生运势的娱乐小工具 (中文/English/Español)" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="lang-switch" id="langSwitch">
+    <button data-lang="zh" class="active">中文</button>
+    <button data-lang="en">English</button>
+    <button data-lang="es">Español</button>
+  </div>
+
+  <main class="card">
+    <header class="card-head">
+      <h1 id="appTitle">命运推算</h1>
+      <p id="appSubtitle" class="subtitle"></p>
+      <p id="disclaimer" class="disclaimer"></p>
+    </header>
+
+    <form id="destinyForm" novalidate>
+      <div class="grid">
+        <div class="field">
+          <label id="lblYear" for="birthYear"></label>
+          <input type="number" id="birthYear" min="1900" max="2026" placeholder="1990" inputmode="numeric" />
+        </div>
+        <div class="field">
+          <label id="lblMonth" for="birthMonth"></label>
+          <select id="birthMonth">
+            <option value="">--</option>
+          </select>
+        </div>
+        <div class="field">
+          <label id="lblDay" for="birthDay"></label>
+          <select id="birthDay">
+            <option value="">--</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label id="lblTime" for="birthTime"></label>
+        <div class="time-row">
+          <input type="time" id="birthTime" />
+          <label class="checkbox">
+            <input type="checkbox" id="dontRemember" />
+            <span id="lblDontRemember"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label id="lblLocation" for="birthLocation"></label>
+        <input type="text" id="birthLocation" placeholder="" />
+      </div>
+
+      <div class="field">
+        <label id="lblGender"></label>
+        <div class="radio-row">
+          <label class="radio"><input type="radio" name="gender" value="male" /> <span id="lblMale"></span></label>
+          <label class="radio"><input type="radio" name="gender" value="female" /> <span id="lblFemale"></span></label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" id="calcBtn" class="primary"></button>
+        <button type="reset" id="resetBtn" class="ghost"></button>
+      </div>
+      <p id="formError" class="form-error" role="alert"></p>
+    </form>
+
+    <section id="result" class="result hidden" aria-live="polite"></section>
+  </main>
+
+  <footer class="foot">
+    <span id="footNote"></span>
+  </footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
